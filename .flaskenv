@@ -1,2 +1,2 @@
-FLASK_APP=customer_service.py
+FLASK_APP=app.py
 FLASK_ENV=development

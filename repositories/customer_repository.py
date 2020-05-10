@@ -1,3 +1,4 @@
+import json
 customers = [
     {
         'customerId': 'd83ff143-9f8b-445a-8d8f-b9b8fe0f9f28',
@@ -13,10 +14,10 @@ customers = [
     }
 ]
 
+
 def selectCustomers():
     try:
-        rows = customers
-        return rows
+        return json.dumps(customers, indent=4, separators=(',',':'))
     except: 
         print('There was an error')
 
@@ -25,16 +26,15 @@ def selectCustomerByCustomerId(customerId):
     return customer
 
 def insertCustomer(customer):
-    customers.push(customer)
+    customers.append(customer)
 
 def updateCustomer(updatedCustomer):
-    customersThatDontMatch = next(customer for customer in customers if customer['customerId'] == updatedCustomer['customerId'])
-
-    customers = [
-        *customersThatDontMatch,
-        updatedCustomer
-    ]
+    for customer in customers:
+        if customer['customerId'] == updatedCustomer['customerId']:
+            for keys in customer.keys():
+                customer[keys] = updatedCustomer[keys]
+    return customers
 
 def deleteCustomerByCustomerId(customerId):
-    customersAfterDelete = [customer for customer in customers if customer['customerId'] != customerId]
-    return customersAfterDelete
+    customersAfterDelete = [customers.remove(customer) for customer in customers if customer['customerId'] == customerId]
+    return ''
